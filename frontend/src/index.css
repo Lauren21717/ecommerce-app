@@ -23,3 +23,11 @@ a.active hr{
         color: white;
     }
 }
+
+.footer-heading {
+    @apply text-xl font-medium mb-5;
+}
+
+.footer-ul {
+    @apply flex flex-col gap-1 text-gray-600;
+}
