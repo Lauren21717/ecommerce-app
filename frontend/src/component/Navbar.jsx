@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { assets } from '../assets/assets'
 import { NavLink, Link } from 'react-router-dom'
+import { ShopContext } from '../context/ShopContext';
 
 const Navbar = () => {
 
     const [visible, setVisible] = useState(false);
+    const { setShowSearch } = useContext(ShopContext);
 
     return (
         <div className='flex items-center justify-between py-5 font-medium'>
 
-            <Link to='/'><img src={assets.logo} className='w-36' alt="" /></Link>
+            <Link to='/'><img src={assets.logo} className='w-36' alt="Logo" /></Link>
 
             <ul className='hidden sm:flex gap-5 text-sm text-gray-700'>
                 <NavLink
@@ -39,7 +41,11 @@ const Navbar = () => {
             </ul>
 
             <div className='flex items-center gap-6'>
-                <img src={assets.search_icon} className='w-5 cursor-pointer' alt="search icon" />
+                <img
+                    onClick={() => setShowSearch(prevState => !prevState)}
+                    src={assets.search_icon}
+                    className='w-5 cursor-pointer'
+                    alt="search icon" />
                 <div className="group relative">
                     <img className='w-5 cursor-pointer' src={assets.profile_icon} alt="" />
                     <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4">
@@ -76,10 +82,10 @@ const Navbar = () => {
                             alt="Close Menu" />
                         <p>Back</p>
                     </div>
-                    <NavLink onClick={()=> setVisible(false)} className='py-2 pl-6 border uppercase' to='/'>Home</NavLink>
-                    <NavLink onClick={()=> setVisible(false)} className='py-2 pl-6 border uppercase' to='/collection'>Collection</NavLink>
-                    <NavLink onClick={()=> setVisible(false)} className='py-2 pl-6 border uppercase' to='/about'>About</NavLink>
-                    <NavLink onClick={()=> setVisible(false)} className='py-2 pl-6 border uppercase' to='/contact'>Contact</NavLink>
+                    <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border uppercase' to='/'>Home</NavLink>
+                    <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border uppercase' to='/collection'>Collection</NavLink>
+                    <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border uppercase' to='/about'>About</NavLink>
+                    <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border uppercase' to='/contact'>Contact</NavLink>
                 </div>
             </div>
         </div>
