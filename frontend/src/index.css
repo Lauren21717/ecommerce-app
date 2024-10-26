@@ -47,3 +47,7 @@ a.active hr{
 .payment-method-container {
     @apply flex items-center gap-3 border p-2 px-3 cursor-pointer;
 }
+
+.sign-up-input {
+    @apply border border-gray-800 w-full px-3 py-2;
+}
