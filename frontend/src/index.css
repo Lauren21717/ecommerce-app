@@ -41,5 +41,9 @@ a.active hr{
 }
 
 .cart-items{
-    @apply py-4 border-t border-b text-gray-700 grid grid-cols-[4fr_0.5fr_0.5fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4
+    @apply py-4 border-t border-b text-gray-700 grid grid-cols-[4fr_0.5fr_0.5fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4;
+}
+
+.payment-method-container {
+    @apply flex items-center gap-3 border p-2 px-3 cursor-pointer;
 }
