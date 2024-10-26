@@ -32,11 +32,36 @@ const ShopContextProvider = (props) => {
     }
 
     const updateQuantity = async (itemId, size, quantity) => {
-
         let cartData = structuredClone(cartItems);
         cartData[itemId][size] = quantity;
         setCartItems(cartData);
     }
+
+    const getCartAmount = () => {
+        if (!products || !cartItems) return 0;
+    
+        const productMap = products.reduce((map, product) => {
+            map[product._id] = product;
+            return map;
+        }, {});
+    
+        const totalAmount = Object.entries(cartItems).reduce((total, [itemId, sizes]) => {
+            const itemInfo = productMap[itemId];
+    
+            if (!itemInfo) {
+                console.error(`Product with ID ${itemId} not found`);
+                return total;
+            }
+    
+            const itemTotal = Object.entries(sizes).reduce((subTotal, [size, quantity]) => {
+                return subTotal + (itemInfo.price * quantity);
+            }, 0);
+    
+            return total + itemTotal;
+        }, 0);
+    
+        return totalAmount;
+    };
 
     const value = {
         products,
@@ -46,7 +71,8 @@ const ShopContextProvider = (props) => {
         showSearch, setShowSearch,
         cartItems, addToCart,
         getCartCount,
-        updateQuantity
+        updateQuantity,
+        getCartAmount
     }
 
 
