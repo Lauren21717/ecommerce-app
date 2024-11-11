@@ -38,7 +38,7 @@ const addProduct = async (req, res) => {
                     const result = await cloudinary.uploader.upload(item.path, {
                         resource_type: 'image',
                         quality: 'auto',
-                        folder: 'products' // Optional: organize images in folders
+                        folder: 'products'
                     });
                     return result.secure_url;
                 })
@@ -57,7 +57,6 @@ const addProduct = async (req, res) => {
                 date: Date.now()
             };
 
-            // 5. Validate price is a positive number
             if (isNaN(productData.price) || productData.price <= 0) {
                 return res.status(400).json({
                     success: false,
@@ -65,7 +64,6 @@ const addProduct = async (req, res) => {
                 });
             }
 
-            // 6. Save to database
             const product = new productModel(productData);
             await product.save();
 
@@ -94,17 +92,54 @@ const addProduct = async (req, res) => {
 
 // function for list product
 const listProducts = async (req, res) => {
-   
+    try {
+        const products = await productModel.find({});
+        res.json({
+            success:true,
+            products
+        })
+    } catch (error) {
+        console.error('List product error:', error);
+        return res.status(500).json({
+            success: false,
+            message: error.message || "Error listing product"
+        });
+    }
 }
 
 // function for removeing product
 const removeProduct = async (req, res) => {
-    
+    try {
+        await productModel.findByIdAndDelete(req.body.id);
+        res.json({
+            success:true,
+            message: "Product Removed"
+        })
+    } catch (error) {
+        console.error('Delete product error:', error);
+        return res.status(500).json({
+            success: false,
+            message: error.message || "Error listing product"
+        });
+    }
 }
 
 // function for single product info
 const singleProduct = async (req, res) => {
-
+    try {
+        const { productId } = req.body;
+        const product = await productModel.findById(productId)
+        res.json({
+            success: true,
+            product
+        })
+    } catch (error) {
+        console.error('Get product error:', error);
+        return res.status(500).json({
+            success: false,
+            message: error.message || "Error get product"
+        });
+    }
 }
 
 export { listProducts, addProduct, removeProduct, singleProduct }
